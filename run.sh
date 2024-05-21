@@ -1,7 +1,6 @@
 # ---------------------------------------
 # Activate environment and run the script
-# PmXa Feb-2024
+# PmXa May-2024
 # ---------------------------------------
 
-conda activate py_exif
-python3 ./name_to_date.py
+conda run -n py_exif python name_to_date.py
