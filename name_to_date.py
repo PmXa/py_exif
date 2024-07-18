@@ -2,11 +2,14 @@
 # WA EXIF Writer 1.0
 # This script takes the date from a WA image's
 # file name and adds it to the image's EXIF data.
-# PmXa Nov-2022
+# PmXa Jul-2024
 # -----------------------------------------------
 
 from exif import Image
-import os 
+
+import datetime as dt
+import os
+import re
 
 if not os.path.exists("./original_files"):
     os.mkdir("./original_files")
@@ -23,18 +26,31 @@ if __name__ == "__main__":
     directory = "original_files"
 
     for filename in os.listdir(directory):
-        file_info = filename.split(" ")
-        file_date = file_info[2].replace("-",":")
-        file_time = file_info[4].replace(".",":")
-        file_PM = "PM" in file_info[5]
+        full_path = os.path.join(directory, filename)
 
-        if file_PM:
-            corrected_time = file_time.split(":")
-            corrected_hh = str(int(corrected_time[0]) + 12)
-            corrected_time[0] = corrected_hh
-            file_time = ":".join(corrected_time)
+        # Format #1 WhatsApp Image yyyy-mm-dd at h.mm.ss XM
+        if (date := re.match(r"WhatsApp Image ([\d-]+) at ([\d\.]+) ([AP]M)", filename)):
+            file_date = date.group(1).replace("-",":")
+            file_time = date.group(2).replace(".",":")
 
-        with open(os.path.join(directory, filename),"rb") as image_file:
+            if date.group(3) == "PM":
+                corrected_time = file_time.split(":")
+                corrected_hh = str(int(corrected_time[0]) + 12)
+                corrected_time[0] = corrected_hh
+                file_time = ":".join(corrected_time)
+
+            print(f"Format WA found! -> {file_date} @ {file_time}")
+
+        # Format #2 IMG-YYYYMMDD-WAXXXX
+        if (date := re.match(r"IMG-(\d{4})(\d{2})(\d{2})-WA\d+", filename)):
+            file_date = f"{date.group(1)}:{date.group(2)}:{date.group(3)}"
+            file_time = os.path.getmtime(full_path)
+            file_time = dt.datetime.fromtimestamp(file_time)
+            file_time = file_time.strftime('%H:%M:%S')
+            print(f"Format IMG found! -> {file_date} @ {file_time}")
+
+        # Write the EXIF data to a new file
+        with open(full_path,"rb") as image_file:
             image = Image(image_file)
             image.datetime_original = " ".join([file_date, file_time])
             print(image.get_all())
