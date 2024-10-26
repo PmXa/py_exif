@@ -25,4 +25,6 @@ To actually use the program place the pictures into the `original_files` folder 
 > The file name **must** follow one of the following syntaxes:
 >
 > - `WhatsApp Image yyyy-mm-dd at h.mm.ss XM`, where `X` could be either `A` or `P`. For example: `WhatsApp Image 2023-11-01 at 9.22.45 PM`
-> - `IMG-YYYYMMDD-WAXXXX`, where `XXXX` is a four-digit identifier used by WhatsApp.
+> - `IMG-yyyymmdd-WAXXXX`, where `XXXX` is a four-digit identifier used by WhatsApp.
+> - `IMG_yyyymmdd_hhmmss`, with hours in 24 h format.
+> - `Name - ddmmyyyy`, with the name **not** having spaces.
