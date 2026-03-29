@@ -1,5 +1,7 @@
 # 🕰️ WA EXIF Writer
 
+[TOC]
+
 This is a simple script to parse the date from a WhatsApp picture’s file name and set it as the “taken” date of a **copy** of the original picture. The purpose is to help a bit with sorting pictures.
 
 ## Setup
@@ -27,4 +29,9 @@ To actually use the program place the pictures into the `original_files` folder 
 > - `WhatsApp Image yyyy-mm-dd at h.mm.ss XM`, where `X` could be either `A` or `P`. For example: `WhatsApp Image 2023-11-01 at 9.22.45 PM`
 > - `IMG-yyyymmdd-WAXXXX`, where `XXXX` is a four-digit identifier used by WhatsApp.
 > - `IMG_yyyymmdd_hhmmss`, with hours in 24 h format.
-> - `Name - ddmmyyyy`, with the name **not** having spaces.
+> - `Name - ddmmyyyy`, with `Name` **not** having spaces.
+> - `Screenshot yyyy-mm-dd at hh-mm-ss Source` where `Source` can be any text.
+
+>[!warning]
+>
+>Currently the _Screenshot_ format has to be set with `exiftool` via a shell subprocess. This is waiting to be fixed, maybe even by substituting Python’s `exif` module and using a bash script instead.

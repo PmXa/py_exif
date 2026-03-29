@@ -10,6 +10,7 @@ from exif import Image
 import datetime as dt
 import os
 import re
+import subprocess
 
 if not os.path.exists("./original_files"):
     os.mkdir("./original_files")
@@ -63,12 +64,29 @@ if __name__ == "__main__":
             file_time = file_time.strftime('%H:%M:%S')
             print(f"Format NAME found! -> {file_date} @ {file_time}")
 
+        # Format #5 Screenshot YYYY-MM-DD at HH-MM-SS
+        if (date := re.match(r"Screenshot (\d{4})-(\d{2})-(\d{2}) at (\d{2})-(\d{2})-(\d{2}).*", filename)):
+            file_date = f"{date.group(1)}:{date.group(2)}:{date.group(3)}"
+            file_time = f"{date.group(4)}:{date.group(5)}:{date.group(6)}"
+            print(f"Format Screenshot found! -> {file_date} @ {file_time}")
+
+        # Use a subprocess
+            cmd_cp = ["cp", full_path, "./saved_files/"]
+            cmd_et = ["exiftool",
+                      f"-CreateDate={' '.join((file_date, file_time))}",
+                      f"-DateTimeOriginal={' '.join((file_date, file_time))}",
+                      "-overwrite_original",
+                      f"./saved_files/{filename}"]
+            subprocess.run(cmd_cp)
+            subprocess.run(cmd_et, capture_output=False, text=False)
+            continue
+
         # Write the EXIF data to a new file
-        with open(full_path,"rb") as image_file:
+        with open(full_path, "rb") as image_file:
             image = Image(image_file)
             image.datetime_original = " ".join((file_date, file_time))
             image.list_all()
             image.get_all()
 
-        with open(f"./saved_files/{filename}","wb") as new_image:
+        with open(f"./saved_files/{filename}", "wb") as new_image:
             new_image.write(image.get_file())
