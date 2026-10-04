@@ -6,9 +6,7 @@ This is a simple script to parse the date from a WhatsApp picture’s file name 
 
 ## Setup
 
-The only dependencies for the project are `exif` (v. > 1.4.0) and `plum-py` (v. > 0.8.5). As long as they are present, either in your Python installation or in a (recommended) virtual environment with `venv`, `conda` or the like, the script will work.
-
-Both a `win-setup.ps1` and `setup.sh` script are provided to quickly create the necessary environment using `conda`.
+The only dependencies for the project are `exif` (v. > 1.4.0) and `plum-py` (v. > 0.8.5, automatically manged). As long as they are present, either in your Python installation or in a (recommended) virtual environment with `venv`, `conda`, `mamba`, `pixi` or the like, the script will work.
 
 > [!note] 
 >
@@ -21,7 +19,7 @@ Both a `win-setup.ps1` and `setup.sh` script are provided to quickly create the 
 
 ## Usage
 
-To actually use the program place the pictures into the `original_files` folder and execute either the `win-run.ps1` or the `run.sh` file. The **copy** of your pictures with the adjusted date will be available in the `saved_files` folder.
+To actually use the program place the pictures into the `original_files` folder and execute `pixi run start`. The **copy** of your pictures with the adjusted date will be available in the `saved_files` folder.
 
 > [!important]
 > The file name **must** follow one of the following syntaxes:

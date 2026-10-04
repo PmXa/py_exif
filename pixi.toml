@@ -1,0 +1,16 @@
+[workspace]
+authors = ["PmXa <88341168+PmXa@users.noreply.github.com>"]
+channels = ["conda-forge"]
+name = "Python EXIF"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+start = "python ./name_to_date.py"
+
+[dependencies]
+python = ">=3.14.7,<3.15"
+
+[pypi-dependencies]
+exif = ">=1.6.1, <2"

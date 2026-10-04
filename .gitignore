@@ -1,3 +1,7 @@
 # Ignore all image files
 original_files/
 saved_files/
+
+# Pixi environments
+.pixi/*
+!.pixi/config.toml
